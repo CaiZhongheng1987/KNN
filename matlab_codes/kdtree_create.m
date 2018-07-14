@@ -6,17 +6,17 @@
 % 2018.06.09     v1.0             init
 
 function root = kdtree_create(input_data)
-%% ÕÒ³ö·½²î×î´óµÄÎ¬¶È
-data_var                = mean(input_data.^2,1) - mean(input_data,1).*mean(input_data,1);%ÇóÃ¿¸öÎ¬¶ÈµÄ·½²î
+%% æ‰¾å‡ºæ–¹å·®æœ€å¤§çš„ç»´åº¦
+data_var                = mean(input_data.^2,1) - mean(input_data,1).*mean(input_data,1);%æ±‚æ¯ä¸ªç»´åº¦çš„æ–¹å·®
 [~,dim_idx]             = max(data_var);
 
-%% ¸ù¾İdim_dixËù´¦µÄÎ¬¶È£¬¶ÔÊı¾İ½øĞĞÅÅĞò£¬²¢Ò»·ÖÎª¶ş
+%% æ ¹æ®dim_dixæ‰€å¤„çš„ç»´åº¦ï¼Œå¯¹æ•°æ®è¿›è¡Œæ’åºï¼Œå¹¶ä¸€åˆ†ä¸ºäºŒ
 tmp_data                = input_data(:,dim_idx);
 [tmp_data,resort_idx]   = sort(tmp_data);
 resort_data             = input_data(resort_idx,:);
 data_len                = length(tmp_data);
-root.dim                = dim_idx;% ½«µ±Ç°±È½ÏµÄÎ¬¶È±àºÅ´æ´¢ÏÂÀ´
-%% ½«µ±Ç°¸¸½Úµã¸³Öµµ½root.dataÀïÃæ,²¢·ÖÎª×ó×ÓÊ÷ºÍÓÒ×ÓÊ÷£¬µİ¹éµ÷ÓÃ
+root.dim                = dim_idx;% å°†å½“å‰æ¯”è¾ƒçš„ç»´åº¦ç¼–å·å­˜å‚¨ä¸‹æ¥
+%% å°†å½“å‰çˆ¶èŠ‚ç‚¹èµ‹å€¼åˆ°root.dataé‡Œé¢,å¹¶åˆ†ä¸ºå·¦å­æ ‘å’Œå³å­æ ‘ï¼Œé€’å½’è°ƒç”¨
 if(data_len==1)
     root.data        = resort_data(1,:);
 elseif(data_len==2)
@@ -24,10 +24,10 @@ elseif(data_len==2)
     root.left.dim    = 1;
     root.data        = resort_data(2,:);
 else
-    mid_idx          = ceil(data_len/2);% È¡ÖĞÎ»Êı
+    mid_idx          = ceil(data_len/2);% å–ä¸­ä½æ•°
     root.data        = resort_data(mid_idx,:);
-    root.left        = kdtree_create(resort_data(1:mid_idx-1,:));%µİ¹éµ÷ÓÃ£¬Éú³É×ó×ÓÊ÷
-    root.right       = kdtree_create(resort_data(mid_idx+1:end,:));%µİ¹éµ÷ÓÃ£¬Éú³ÉÓÒ×ÓÊ÷
+    root.left        = kdtree_create(resort_data(1:mid_idx-1,:));%é€’å½’è°ƒç”¨ï¼Œç”Ÿæˆå·¦å­æ ‘
+    root.right       = kdtree_create(resort_data(mid_idx+1:end,:));%é€’å½’è°ƒç”¨ï¼Œç”Ÿæˆå³å­æ ‘
 end
 end
 
