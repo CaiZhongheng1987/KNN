@@ -16,10 +16,10 @@
 function [data_cur_max, return_flag, kdtree_cur, k_array] = find_k_nearest(test_data, leaf_path, kdtree_cur, k_array, k_num, dist_mode)
 
 % return_flag = 0;
-k_array_flag = 0; %±ê¼Çk¶ÓÁĞÊÇ·ñÈûÂú¡£
+k_array_flag = 0; %æ ‡è®°ké˜Ÿåˆ—æ˜¯å¦å¡æ»¡ã€‚
 
-%% ¸ù¾İµ±Ç°µÄkd tree£¬Ñ°ÕÒ×î½üµÄÒ¶½Úµã
-% ÕâÒ»²½Ê¹ÓÃleaf_path_searchº¯Êı£¬Ä¿µÄÔÚÓÚ¸ù¾İÖ¸¶¨µÄÂ·¾¶ºÍkdtree£¬ÕÒµ½¶ÔÓ¦µÄÒ¶½ÚµãºÍ¸ÃÒ¶½ÚµãµÄĞÖµÜ½Úµã×é³ÉµÄÊ÷£¬ÒÔ¼°¸¸Ê÷
+%% æ ¹æ®å½“å‰çš„kd treeï¼Œå¯»æ‰¾æœ€è¿‘çš„å¶èŠ‚ç‚¹
+% è¿™ä¸€æ­¥ä½¿ç”¨leaf_path_searchå‡½æ•°ï¼Œç›®çš„åœ¨äºæ ¹æ®æŒ‡å®šçš„è·¯å¾„å’Œkdtreeï¼Œæ‰¾åˆ°å¯¹åº”çš„å¶èŠ‚ç‚¹å’Œè¯¥å¶èŠ‚ç‚¹çš„å…„å¼ŸèŠ‚ç‚¹ç»„æˆçš„æ ‘ï¼Œä»¥åŠçˆ¶æ ‘
 if(isempty(leaf_path)==1)
     root_data   = kdtree_cur.data;
     father_data = [];
@@ -27,22 +27,22 @@ else
     [root_data, father_data, tree_brother, tree_father] = kdtree_split(kdtree_cur, leaf_path);
 end
 
-%% ¶Ôk_arrayµÄ³¤¶È½øĞĞÅĞ¶Ï
+%% å¯¹k_arrayçš„é•¿åº¦è¿›è¡Œåˆ¤æ–­
 dist_cur = calc_distance(test_data, root_data, dist_mode);
 if(size(k_array,1)<k_num)
-    %% ¶ÓÁĞµÄ³¤¶È»¹Ã»µ½kµÄÊ±ºò£¬¾Í°Ñµ±Ç°½ÚµãµÄÖµºÍ¾àÀëÖ±½Ó´æÈë¶ÓÁĞÖĞ
-    % ½«¸Ã½ÚµãºÍ¶ÔÓ¦µÄ¾àÀë´æÈëk_arrayÖĞ
+    %% é˜Ÿåˆ—çš„é•¿åº¦è¿˜æ²¡åˆ°kçš„æ—¶å€™ï¼Œå°±æŠŠå½“å‰èŠ‚ç‚¹çš„å€¼å’Œè·ç¦»ç›´æ¥å­˜å…¥é˜Ÿåˆ—ä¸­
+    % å°†è¯¥èŠ‚ç‚¹å’Œå¯¹åº”çš„è·ç¦»å­˜å…¥k_arrayä¸­
     k_array = [k_array; root_data, dist_cur];
-    % ¶Ô¶ÓÁĞ½øĞĞÖØĞÂÅÅĞò£¬È·±£¶ÓÁĞ°´ÕÕ¾àÀëµÄÉıĞòÅÅÁĞ£¬×î´ó¾àÀëµÄÊıÖµÔÚ¶ÓÁĞµÄ×îºóÒ»ĞĞ
+    % å¯¹é˜Ÿåˆ—è¿›è¡Œé‡æ–°æ’åºï¼Œç¡®ä¿é˜Ÿåˆ—æŒ‰ç…§è·ç¦»çš„å‡åºæ’åˆ—ï¼Œæœ€å¤§è·ç¦»çš„æ•°å€¼åœ¨é˜Ÿåˆ—çš„æœ€åä¸€è¡Œ
     if(isempty(k_array)~=1)
         [~,sort_idx]  = sort(k_array(:,end));
         k_array       = k_array(sort_idx,:);
-        data_cur_max  = k_array(end,end); % ÕÒµ½¶ÓÁĞÖĞ×î´óµÄ¾àÀë
+        data_cur_max  = k_array(end,end); % æ‰¾åˆ°é˜Ÿåˆ—ä¸­æœ€å¤§çš„è·ç¦»
     else
         data_cur_max  = 0;
     end
 else
-    %% ¶ÓÁĞµÄ³¤¶ÈÒÑ¾­ÈûÂú£¬ÄÇ¾Í½«µ±Ç°½ÚµãºÍ¶ÓÁĞÀïµÄÊı¾İ½øĞĞ±È½Ï£¬½«µ±Ç°Êı¾İºÍ¾àÀëÈû½ø¶ÓÁĞ
+    %% é˜Ÿåˆ—çš„é•¿åº¦å·²ç»å¡æ»¡ï¼Œé‚£å°±å°†å½“å‰èŠ‚ç‚¹å’Œé˜Ÿåˆ—é‡Œçš„æ•°æ®è¿›è¡Œæ¯”è¾ƒï¼Œå°†å½“å‰æ•°æ®å’Œè·ç¦»å¡è¿›é˜Ÿåˆ—
     data_cur_max = k_array(end,end);
     k_array_flag = 1;
     if(data_cur_max>dist_cur)
@@ -62,9 +62,9 @@ if(isempty(leaf_path)==1)
 else
 end
 
-%% ÅĞ¶ÏÓĞÎŞĞÖµÜ½Úµã
+%% åˆ¤æ–­æœ‰æ— å…„å¼ŸèŠ‚ç‚¹
 if(isempty(tree_brother)==1)
-    % Ã»ÓĞĞÖµÜ½Úµã£¬ÔòÖ±½Ó»ØÍËµ½¸¸½Úµã£¬µİ¹éµ÷ÓÃ£¬´ËÊ±½«¸Ã¸ù½Úµã´ÓkdtreeÉÏµôÂä£¬ËùÒÔµİ¹éµ÷ÓÃµÄÊ±ºòkd_treeÊ¹ÓÃtree_father
+    % æ²¡æœ‰å…„å¼ŸèŠ‚ç‚¹ï¼Œåˆ™ç›´æ¥å›é€€åˆ°çˆ¶èŠ‚ç‚¹ï¼Œé€’å½’è°ƒç”¨ï¼Œæ­¤æ—¶å°†è¯¥æ ¹èŠ‚ç‚¹ä»kdtreeä¸Šæ‰è½ï¼Œæ‰€ä»¥é€’å½’è°ƒç”¨çš„æ—¶å€™kd_treeä½¿ç”¨tree_father
     leaf_path                       = leaf_path(1:length(leaf_path)-1);
     [~, return_flag, ~, k_array]    = find_k_nearest(test_data, leaf_path, tree_father, k_array, k_num, dist_mode);
     if(return_flag==1)
@@ -72,11 +72,11 @@ if(isempty(tree_brother)==1)
     else
     end
 else
-    % ´æÔÚĞÖµÜ½Úµã£¬Ôò×öÅĞ¶Ï£¬ÇĞ·ÖÃæÎª¸¸½Úµã
+    % å­˜åœ¨å…„å¼ŸèŠ‚ç‚¹ï¼Œåˆ™åšåˆ¤æ–­ï¼Œåˆ‡åˆ†é¢ä¸ºçˆ¶èŠ‚ç‚¹
     dist_in_dim = abs(test_data(father_data.dim) - father_data.data(father_data.dim));
     
     if(dist_in_dim>data_cur_max)&&(k_array_flag==1)
-        %% Ö±½Ó»ØÍËµ½¸¸½Úµã
+        %% ç›´æ¥å›é€€åˆ°çˆ¶èŠ‚ç‚¹
         leaf_path                       = leaf_path(1:length(leaf_path)-1);
         [~, return_flag, ~, k_array]    = find_k_nearest(test_data, leaf_path, tree_father, k_array, k_num, dist_mode);
         if(return_flag==1)
@@ -84,13 +84,13 @@ else
         else
         end
     else
-        %% È¥ĞÖµÜ½Úµã¼ÌĞøËÑË÷
+        %% å»å…„å¼ŸèŠ‚ç‚¹ç»§ç»­æœç´¢
 
-        % ¸øĞÖµÜ½ÚµãÖØĞÂ½¨Á¢ĞÂµÄleaf_path£¬·½±ãµİ¹éµ÷ÓÃ¡£
+        % ç»™å…„å¼ŸèŠ‚ç‚¹é‡æ–°å»ºç«‹æ–°çš„leaf_pathï¼Œæ–¹ä¾¿é€’å½’è°ƒç”¨ã€‚
         [~,brother_leaf_path] = find_leaf_node(test_data, tree_brother);
-        % ½«¸¸Ê÷µÄleaf_pathºÍĞÖµÜ½ÚµãµÄleaf_path¼Ş½ÓÔÚÒ»Æğ£¬½¨Á¢ĞÂµÄleaf_path
+        % å°†çˆ¶æ ‘çš„leaf_pathå’Œå…„å¼ŸèŠ‚ç‚¹çš„leaf_pathå«æ¥åœ¨ä¸€èµ·ï¼Œå»ºç«‹æ–°çš„leaf_path
         new_leaf_path         = [leaf_path(1:end-1) double(~leaf_path(end)) brother_leaf_path];
-        % ½¨Á¢ĞÂµÄkdtree£¬°üº¬¸¸Ê÷ºÍĞÖµÜ½Úµã£¬µ«ÊÇ²»°üº¬µ±Ç°ÒÑ¾­±È½Ï¹ıµÄ½Úµã¡£
+        % å»ºç«‹æ–°çš„kdtreeï¼ŒåŒ…å«çˆ¶æ ‘å’Œå…„å¼ŸèŠ‚ç‚¹ï¼Œä½†æ˜¯ä¸åŒ…å«å½“å‰å·²ç»æ¯”è¾ƒè¿‡çš„èŠ‚ç‚¹ã€‚
         father_path           = [];
         for idx=1:length(leaf_path)-1
             if(leaf_path(idx)==0)
@@ -101,14 +101,14 @@ else
         end
         tree_new            = tree_father;
         if(leaf_path(end)==1)
-            % ĞÖµÜ½ÚµãÊÇ×ó×ÓÊ÷
+            % å…„å¼ŸèŠ‚ç‚¹æ˜¯å·¦å­æ ‘
             eval(['tree_new' father_path '.left  = tree_brother;']);
         else
-            % ĞÖµÜ½ÚµãÊÇÓÒ×ÓÊ÷
+            % å…„å¼ŸèŠ‚ç‚¹æ˜¯å³å­æ ‘
             eval(['tree_new' father_path '.right = tree_brother;']);
         end
         
-        % ¶ÔĞÖµÜ½Úµã×é³ÉµÄĞÂµÄkdtree½øĞĞµİ¹éËÑË÷
+        % å¯¹å…„å¼ŸèŠ‚ç‚¹ç»„æˆçš„æ–°çš„kdtreeè¿›è¡Œé€’å½’æœç´¢
         [~, return_flag, ~, k_array] = find_k_nearest(test_data, new_leaf_path, tree_new, k_array, k_num, dist_mode);
         if(return_flag==1)
             return;
