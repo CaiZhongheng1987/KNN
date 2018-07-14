@@ -13,21 +13,21 @@ left_flag  = isfield(kdtree,'left');
 right_flag = isfield(kdtree,'right');
 
 if(left_flag==0)&&(right_flag==0)
-    % ÒÑ¾­ÊÇÒ¶½Úµã£¬Ö±½Ó·µ»Ø
+    % å·²ç»æ˜¯å¶èŠ‚ç‚¹ï¼Œç›´æ¥è¿”å›
     leaf_data        = kdtree;
     leaf_path_parent = [];
     leaf_path_child  = [];
 %     kdtree_brother   = kdtree_brother;
 elseif(left_flag==1)&&(right_flag==0)
-    % Ö»ÓĞ×ó×ÓÊ÷£¬ÄÇ¾ÍÖ±½ÓÈ¥×ó×ÓÊ÷
+    % åªæœ‰å·¦å­æ ‘ï¼Œé‚£å°±ç›´æ¥å»å·¦å­æ ‘
     leaf_path_parent               = 0; % 0: left; 1: right 
     [leaf_data, leaf_path_child] = find_leaf_node(test_data, kdtree.left);
 elseif(left_flag==0)&&(right_flag==1)
-    % Ö»ÓĞÓÒ×ÓÊ÷£¬ÄÇ¾ÍÖ±½ÓÈ¥ÓÒ×ÓÊ÷
+    % åªæœ‰å³å­æ ‘ï¼Œé‚£å°±ç›´æ¥å»å³å­æ ‘
     leaf_path_parent             = 1; % 0: left; 1: right 
     [leaf_data, leaf_path_child] = find_leaf_node(test_data, kdtree.right);
 else
-    % ×óÓÒ×ÓÊ÷¶¼ÓĞ£¬ÄÇ¾Í×ö±È½Ï£¬È¥×î½Ó½üµÄÒ»·½
+    % å·¦å³å­æ ‘éƒ½æœ‰ï¼Œé‚£å°±åšæ¯”è¾ƒï¼Œå»æœ€æ¥è¿‘çš„ä¸€æ–¹
     if(test_data(kdtree.dim)<=kdtree.data(kdtree.dim))
         leaf_path_parent               = 0; % 0: left; 1: right 
         [leaf_data, leaf_path_child] = find_leaf_node(test_data, kdtree.left);
