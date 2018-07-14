@@ -11,7 +11,7 @@
 
 function [root_data, father_data, tree_brother, tree_father] = kdtree_split(kdtree, leaf_path)
 
-%% ĞèÒª½«kdtree²ğ·ÖÎªÈı¸ö²¿·Ö£¬µÚÒ»²¿·ÖÊÇleaf pathÑ¡³öÀ´µÄ¸ù½Úµã£¬µÚ¶ş²¿·ÖÊÇ¸ù½ÚµãµÄĞÖµÜ½ÚµãÒÔ¼°ĞÖµÜ½ÚµãÏÂÃæµÄËùÓĞ×ÓÊ÷£¬µÚÈı²¿·ÖÊÇkdtree³ıÈ¥µÚÒ»ºÍµÚ¶ş²¿·ÖÒÔÍâµÄ²¿·Ö,father tree
+%% éœ€è¦å°†kdtreeæ‹†åˆ†ä¸ºä¸‰ä¸ªéƒ¨åˆ†ï¼Œç¬¬ä¸€éƒ¨åˆ†æ˜¯leaf pathé€‰å‡ºæ¥çš„æ ¹èŠ‚ç‚¹ï¼Œç¬¬äºŒéƒ¨åˆ†æ˜¯æ ¹èŠ‚ç‚¹çš„å…„å¼ŸèŠ‚ç‚¹ä»¥åŠå…„å¼ŸèŠ‚ç‚¹ä¸‹é¢çš„æ‰€æœ‰å­æ ‘ï¼Œç¬¬ä¸‰éƒ¨åˆ†æ˜¯kdtreeé™¤å»ç¬¬ä¸€å’Œç¬¬äºŒéƒ¨åˆ†ä»¥å¤–çš„éƒ¨åˆ†,father tree
 tmp_kdtree   = kdtree;
 tree_father  = kdtree;
 father_path  = [];
@@ -25,14 +25,14 @@ if(length(leaf_path)==1)
     end
     
     if(leaf_path==0)
-        % pathÔÚ×îºóÑ¡Ôñ×ó×ÓÊ÷£¬ÄÇÃ´ĞÖµÜ½Úµã¾ÍÊÇÔÚÓÒ±ß¡£
+        % pathåœ¨æœ€åé€‰æ‹©å·¦å­æ ‘ï¼Œé‚£ä¹ˆå…„å¼ŸèŠ‚ç‚¹å°±æ˜¯åœ¨å³è¾¹ã€‚
         if(isfield(kdtree,'right'))
             tree_brother = kdtree.right;
         else
             tree_brother = [];
         end
     else
-        % pathÔÚ×îºóÑ¡ÔñÓÒ×ÓÊ÷£¬ÄÇÃ´ĞÖµÜ½Úµã¾ÍÊÇÔÚ×ó±ß¡£
+        % pathåœ¨æœ€åé€‰æ‹©å³å­æ ‘ï¼Œé‚£ä¹ˆå…„å¼ŸèŠ‚ç‚¹å°±æ˜¯åœ¨å·¦è¾¹ã€‚
         if(isfield(kdtree,'left'))
             tree_brother = kdtree.left;
         else
@@ -57,14 +57,14 @@ else
         
         if(idx==length(leaf_path)-1)
             if(leaf_path(end)==0)
-                % pathÔÚ×îºóÑ¡Ôñ×ó×ÓÊ÷£¬ÄÇÃ´ĞÖµÜ½Úµã¾ÍÊÇÔÚÓÒ±ß¡£
+                % pathåœ¨æœ€åé€‰æ‹©å·¦å­æ ‘ï¼Œé‚£ä¹ˆå…„å¼ŸèŠ‚ç‚¹å°±æ˜¯åœ¨å³è¾¹ã€‚
                 if(isfield(tmp_kdtree,'right'))
                     tree_brother = tmp_kdtree.right;
                 else
                     tree_brother = [];
                 end
             else
-                % pathÔÚ×îºóÑ¡ÔñÓÒ×ÓÊ÷£¬ÄÇÃ´ĞÖµÜ½Úµã¾ÍÊÇÔÚ×ó±ß¡£
+                % pathåœ¨æœ€åé€‰æ‹©å³å­æ ‘ï¼Œé‚£ä¹ˆå…„å¼ŸèŠ‚ç‚¹å°±æ˜¯åœ¨å·¦è¾¹ã€‚
                 if(isfield(tmp_kdtree,'left'))
                     tree_brother = tmp_kdtree.left;
                 else
